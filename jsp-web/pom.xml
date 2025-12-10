@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 基本信息 -->
+    <groupId>com.demo</groupId>
+    <artifactId>jsp-maven-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging> <!-- Web项目必须为war包 -->
+
+    <!-- 项目属性 -->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source> <!-- 对应JDK版本 -->
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <servlet.version>4.0.1</servlet.version> <!-- 适配Tomcat9 -->
+        <jsp.version>2.3.3</jsp.version>
+    </properties>
+
+    <!-- 依赖：Servlet/JSP API（provided表示运行时由Tomcat提供，不打包） -->
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>javax.servlet.jsp-api</artifactId>
+            <version>${jsp.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- 可选：JSTL标签库（如果用到JSTL） -->
+        <dependency>
+            <groupId>javax.servlet.jsp.jstl</groupId>
+            <artifactId>jstl-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jstl-impl</artifactId>
+            <version>1.2</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 构建配置：Tomcat插件（可选，可直接用插件启动项目，无需手动部署） -->
+    <build>
+        <finalName>jsp-maven-demo</finalName> <!-- 打包后的war包名/部署名 -->
+        <plugins>
+            <!-- Tomcat7插件（兼容Tomcat9，支持直接运行项目） -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8080</port> <!-- 端口 -->
+                    <path>/</path> <!-- 访问路径（根路径） -->
+                    <uriEncoding>UTF-8</uriEncoding> <!-- 解决中文乱码 -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
